@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useStore } from './store';
 import { TaskCard } from './components/TaskCard';
 import { BreakMode } from './components/BreakMode';
@@ -15,12 +15,6 @@ function App() {
   const [taskInput, setTaskInput] = useState('');
   const [currentPage, setCurrentPage] = useState('main');
   const { setCurrentTask, currentTask, settings } = useStore();
-
-  useEffect(() => {
-    console.log('App mounted');
-    console.log('Current settings:', settings);
-    console.log('Current task:', currentTask);
-  }, []);
 
   const t = translations[settings.language];
 
