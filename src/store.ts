@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { AppState, Settings, Task } from './types';
 
 const defaultSettings: Settings = {
-  motto: 'Every step forward is progress!',
+  motto: 'Forward steps add up.',
   language: 'en',
 };
 

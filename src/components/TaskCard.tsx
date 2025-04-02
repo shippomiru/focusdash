@@ -2,22 +2,35 @@ import { useState, useEffect } from 'react';
 import { useStore } from '../store';
 import { Timer, Sparkles, PartyPopper as Party, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { translations } from '../types';
 
-const celebrationMessages = [
-  "🎉 Incredible achievement! You've conquered this task!",
-  "⭐ Amazing work! Your dedication shines through!",
-  "🌟 Phenomenal job! You're unstoppable!",
-  "🎊 Brilliant success! Keep soaring higher!",
-  "✨ Outstanding performance! You're making magic happen!"
-];
+const celebrationMessages = {
+  en: [
+    "🎉 Incredible achievement! You've conquered this task!",
+    "⭐ Amazing work! Your dedication shines through!",
+    "🌟 Phenomenal job! You're unstoppable!",
+    "🎊 Brilliant success! Keep soaring higher!",
+    "✨ Outstanding performance! You're making magic happen!"
+  ],
+  zh: [
+    "🎉 太棒了！你成功完成了这个任务！",
+    "⭐ 出色的工作！你的专注令人印象深刻！",
+    "🌟 惊人的表现！你势不可挡！",
+    "🎊 辉煌的成功！继续攀登高峰！",
+    "✨ 卓越的表现！你正在创造奇迹！"
+  ]
+};
 
 export function TaskCard() {
-  const { currentTask, updateProgress, completeTask, setBreakMode, setCurrentTask, cancelTask } = useStore();
+  const { currentTask, updateProgress, completeTask, setBreakMode, setCurrentTask, cancelTask, settings } = useStore();
   const [elapsed, setElapsed] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
   const [showNextTaskInput, setShowNextTaskInput] = useState(false);
   const [nextTaskInput, setNextTaskInput] = useState('');
   const [celebrationMessage, setCelebrationMessage] = useState('');
+
+  const t = translations[settings.language];
+  const messages = celebrationMessages[settings.language];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -35,7 +48,7 @@ export function TaskCard() {
     updateProgress(newProgress);
     
     if (newProgress === 100) {
-      const message = celebrationMessages[Math.floor(Math.random() * celebrationMessages.length)];
+      const message = messages[Math.floor(Math.random() * messages.length)];
       setCelebrationMessage(message);
       setShowCelebration(true);
       setTimeout(() => {
@@ -104,7 +117,7 @@ export function TaskCard() {
                   onClick={handleBreak}
                   className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 transition-colors"
                 >
-                  Break
+                  {t.break}
                 </motion.button>
               </div>
 
@@ -134,7 +147,7 @@ export function TaskCard() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Update Progress
+                    {t.updateProgress}
                   </motion.button>
                 </div>
               </div>
@@ -185,7 +198,7 @@ export function TaskCard() {
                       type="text"
                       value={nextTaskInput}
                       onChange={(e) => setNextTaskInput(e.target.value)}
-                      placeholder="What's your next challenge?"
+                      placeholder={t.whatToFocus}
                       className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-50 border-0 rounded-xl text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
                       autoFocus
                     />
@@ -196,7 +209,7 @@ export function TaskCard() {
                       whileTap={{ scale: 0.98 }}
                     >
                       <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
-                      <span>Embrace Next Challenge</span>
+                      <span>{t.startFocus}</span>
                     </motion.button>
                   </motion.div>
                 )}
@@ -247,7 +260,7 @@ export function TaskCard() {
           className="mt-4 px-5 sm:px-6 py-2.5 sm:py-3 bg-white/10 backdrop-blur-sm text-white rounded-xl text-sm sm:text-base font-medium hover:bg-white/20 transition-all flex items-center gap-2"
         >
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span>Cancel Task</span>
+          <span>{t.cancelTask}</span>
         </motion.button>
       </motion.div>
     </AnimatePresence>

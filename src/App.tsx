@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { useStore } from './store';
 import { TaskCard } from './components/TaskCard';
 import { BreakMode } from './components/BreakMode';
@@ -9,11 +9,14 @@ import { Reminders } from './components/Reminders';
 import { Help } from './components/Help';
 import { Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { translations } from './types';
 
 function App() {
   const [taskInput, setTaskInput] = useState('');
   const [currentPage, setCurrentPage] = useState('main');
-  const { setCurrentTask, currentTask } = useStore();
+  const { setCurrentTask, currentTask, settings } = useStore();
+
+  const t = translations[settings.language];
 
   const subtitleMessages = [
     "Guard your flow, master Your day.",
@@ -25,15 +28,8 @@ function App() {
     "What's your mission for the next 30 minutes?"
   ];
 
-  const randomSubtitle = useMemo(() => 
-    subtitleMessages[Math.floor(Math.random() * subtitleMessages.length)], 
-    []
-  );
-
-  const randomPlaceholder = useMemo(() => 
-    inputPlaceholders[Math.floor(Math.random() * inputPlaceholders.length)], 
-    []
-  );
+  const randomSubtitle = subtitleMessages[Math.floor(Math.random() * subtitleMessages.length)];
+  const randomPlaceholder = inputPlaceholders[Math.floor(Math.random() * inputPlaceholders.length)];
 
   const startTask = () => {
     if (!taskInput.trim()) return;
@@ -74,7 +70,7 @@ function App() {
                 FocusDash
               </h1>
               <p className="text-base sm:text-base text-gray-600">
-                {currentTask ? `Currently focusing on: ${currentTask.name}` : "Track your progress, build your momentum."}
+                {currentTask ? `${t.currentlyFocusing} ${currentTask.name}` : t.trackProgress}
               </p>
             </motion.div>
             
@@ -91,7 +87,7 @@ function App() {
                       type="text"
                       value={taskInput}
                       onChange={(e) => setTaskInput(e.target.value)}
-                      placeholder="What would you like to focus on?"
+                      placeholder={t.whatToFocus}
                       className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-50 border-0 rounded-xl text-base sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                     />
                     <motion.button
@@ -101,7 +97,7 @@ function App() {
                       whileTap={{ scale: 0.98 }}
                     >
                       <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
-                      <span>Start Focus</span>
+                      <span>{t.startFocus}</span>
                     </motion.button>
                   </div>
                 </motion.div>

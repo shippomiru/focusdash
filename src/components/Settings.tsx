@@ -1,71 +1,66 @@
 import { useStore } from '../store';
-import { Settings as SettingsIcon, Globe } from 'lucide-react';
-import { translations } from '../translations';
 import { motion } from 'framer-motion';
+import { translations } from '../types';
 
 export function Settings() {
   const { settings, updateSettings } = useStore();
   const t = translations[settings.language];
 
+  const handleLanguageChange = (lang: 'en' | 'zh') => {
+    updateSettings({ language: lang });
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 md:p-8">
-      <div className="flex items-center gap-2 mb-6">
-        <SettingsIcon className="w-5 h-5 text-blue-500" />
-        <h2 className="text-2xl sm:text-2xl font-bold">{t.settings}</h2>
-      </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 mb-8 max-w-2xl mx-auto"
+    >
+      <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+        {settings.language === 'en' ? 'Settings' : '设置'}
+      </h2>
 
       <div className="space-y-6">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <label className="block text-base sm:text-base font-medium text-gray-700 mb-2">
-            {t.language}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            {settings.language === 'en' ? 'Language' : '语言'}
           </label>
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <button
-              onClick={() => updateSettings({ language: 'en' })}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg ${
+              onClick={() => handleLanguageChange('en')}
+              className={`px-4 py-2 rounded-lg ${
                 settings.language === 'en'
                   ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              } transition-all`}
+                  : 'bg-gray-100 text-gray-700'
+              }`}
             >
-              <Globe className="w-4 h-4" />
-              <span className="text-base sm:text-base font-medium">English</span>
+              English
             </button>
             <button
-              onClick={() => updateSettings({ language: 'zh' })}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg ${
+              onClick={() => handleLanguageChange('zh')}
+              className={`px-4 py-2 rounded-lg ${
                 settings.language === 'zh'
                   ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              } transition-all`}
+                  : 'bg-gray-100 text-gray-700'
+              }`}
             >
-              <Globe className="w-4 h-4" />
-              <span className="text-base sm:text-base font-medium">中文</span>
+              中文
             </button>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <label className="block text-base sm:text-base font-medium text-gray-700 mb-2">
-            {t.motivationMotto}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            {settings.language === 'en' ? 'Motto' : '格言'}
           </label>
           <input
             type="text"
             value={settings.motto}
             onChange={(e) => updateSettings({ motto: e.target.value })}
-            className="w-full px-4 py-2.5 bg-gray-50 border-0 rounded-xl text-base sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-            placeholder={t.enterMottoPlaceholder}
+            className="w-full px-3 py-2 bg-gray-50 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-        </motion.div>
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
