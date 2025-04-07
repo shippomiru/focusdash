@@ -1,24 +1,44 @@
 {
-  "routes": [
+  "headers": [
     {
-      "src": "/(.*)\\.js$",
-      "headers": {
-        "content-type": "application/javascript; charset=utf-8",
-        "content-disposition": "inline",
-        "access-control-allow-origin": "*"
-      }
+      "source": "/(.*)\\.js$",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript; charset=utf-8"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
     },
     {
-      "src": "/(.*)\\.css$",
-      "headers": {
-        "content-type": "text/css; charset=utf-8",
-        "content-disposition": "inline",
-        "access-control-allow-origin": "*"
-      }
-    },
-    {
-      "src": "/((?!\\.(?:js|css)$).*)",
-      "dest": "/index.html"
+      "source": "/(.*)\\.css$",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/css; charset=utf-8"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    { 
+      "source": "/((?!\\.(?:js|css)$).*)", 
+      "destination": "/index.html" 
     }
   ],
   "cleanUrls": true,
