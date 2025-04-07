@@ -1,41 +1,24 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "headers": [
+  "routes": [
     {
-      "source": "/(.*)\\.js$",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        },
-        {
-          "key": "Content-Disposition",
-          "value": "inline"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        }
-      ]
+      "src": "/(.*)\\.js$",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "content-disposition": "inline",
+        "access-control-allow-origin": "*"
+      }
     },
     {
-      "source": "/(.*)\\.css$",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/css; charset=utf-8"
-        },
-        {
-          "key": "Content-Disposition",
-          "value": "inline"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        }
-      ]
+      "src": "/(.*)\\.css$",
+      "headers": {
+        "content-type": "text/css; charset=utf-8",
+        "content-disposition": "inline",
+        "access-control-allow-origin": "*"
+      }
+    },
+    {
+      "src": "/((?!\\.(?:js|css)$).*)",
+      "dest": "/index.html"
     }
   ],
   "cleanUrls": true,
