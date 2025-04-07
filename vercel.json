@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
+          "value": "application/javascript"
         },
         {
           "key": "Content-Disposition",
@@ -13,7 +13,7 @@
         },
         {
           "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
+          "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
         }
       ]
     },
@@ -22,7 +22,7 @@
       "headers": [
         {
           "key": "Content-Type",
-          "value": "text/css; charset=utf-8"
+          "value": "text/css"
         },
         {
           "key": "Content-Disposition",
@@ -30,7 +30,16 @@
         },
         {
           "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
+          "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
         }
       ]
     }
@@ -41,7 +50,7 @@
       "destination": "/assets/:file"
     },
     {
-      "source": "/((?!assets/).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
