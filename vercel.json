@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/(.*)\\.js$",
+      "source": "/assets/:file*.js",
       "headers": [
         {
           "key": "Content-Type",
@@ -9,16 +9,16 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "inline"
+          "value": "inline; filename=\":file.js\""
         },
         {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     },
     {
-      "source": "/(.*)\\.css$",
+      "source": "/assets/:file*.css",
       "headers": [
         {
           "key": "Content-Type",
@@ -26,19 +26,23 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "inline"
+          "value": "inline; filename=\":file.css\""
         },
         {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     }
   ],
   "rewrites": [
-    { 
-      "source": "/((?!\\.(?:js|css)$).*)", 
-      "destination": "/index.html" 
+    {
+      "source": "/assets/:file(.*)",
+      "destination": "/assets/:file"
+    },
+    {
+      "source": "/((?!assets/).*)",
+      "destination": "/index.html"
     }
   ],
   "cleanUrls": true,
