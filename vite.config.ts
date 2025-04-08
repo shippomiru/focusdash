@@ -4,19 +4,19 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/',
+  base: './',
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
   build: {
     outDir: 'dist',
-    assetsDir: 'assets',
+    assetsDir: '.',
     sourcemap: true,
     rollupOptions: {
       output: {
-        manualChunks: undefined,
-        assetFileNames: 'assets/[name].[ext]',
-        entryFileNames: 'assets/[name].js'
+        entryFileNames: '[name].[hash].js',
+        chunkFileNames: '[name].[hash].js',
+        assetFileNames: '[name].[hash].[ext]'
       }
     }
   },
